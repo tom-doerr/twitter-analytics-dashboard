@@ -33,24 +33,38 @@ st.markdown("""
 # Main title
 st.title("📊 Twitter Analytics Dashboard")
 
+# File uploader
+uploaded_file = st.file_uploader(
+    "Upload your Twitter analytics CSV file",
+    type=['csv'],
+    help="Upload a Twitter analytics CSV file to analyze different accounts"
+)
+
 # Load and cache data
 @st.cache_data
-def load_data():
-    return load_and_process_data("attached_assets/account_analytics_content_2024-11-06_2025-02-04.csv")
+def load_data(file_path=None):
+    if file_path is None:
+        return load_and_process_data("attached_assets/account_analytics_content_2024-11-06_2025-02-04.csv")
+    return load_and_process_data(file_path)
 
 # Load data
 try:
-    df = load_data()
-    
+    if uploaded_file is not None:
+        df = load_data(uploaded_file)
+        st.success("Successfully loaded your Twitter analytics data!")
+    else:
+        df = load_data()
+        st.info("Using default Twitter analytics data. Upload your own CSV file above to analyze different accounts.")
+
     # Calculate summary statistics
     stats = calculate_summary_stats(df)
-    
+
     # Render metrics section
     render_metrics_section(stats)
-    
+
     # Create tabs for different sections
     tab1, tab2, tab3 = st.tabs(["📈 Trends", "🔍 Data Explorer", "🏆 Top Posts"])
-    
+
     with tab1:
         # Time series analysis
         st.subheader("Engagement Trends")
@@ -59,14 +73,14 @@ try:
             ['Impressions', 'Likes', 'Total_Engagement', 'Reposts']
         )
         st.plotly_chart(create_time_series_plot(df, metric), use_container_width=True)
-        
+
         # Engagement distribution
         st.subheader("Engagement Distribution")
         st.plotly_chart(create_engagement_distribution(df), use_container_width=True)
-    
+
     with tab2:
         render_data_explorer(df)
-    
+
     with tab3:
         render_top_posts(df)
 
