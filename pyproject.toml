@@ -7,4 +7,5 @@ dependencies = [
     "pandas>=2.2.3",
     "plotly>=6.0.0",
     "streamlit>=1.41.1",
+    "twilio>=9.4.4",
 ]
