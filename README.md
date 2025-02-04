@@ -2,6 +2,8 @@
 
 A Streamlit-based dashboard for visualizing and analyzing Twitter/X analytics data. This interactive dashboard provides insights into your Twitter engagement metrics, trends, and top-performing posts.
 
+🔗 **[Live Demo](https://data-visualizer-tom-doerr.replit.app/)**
+
 ## Features
 
 - 📊 Interactive metrics dashboard
